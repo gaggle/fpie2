@@ -1,0 +1,37 @@
+name: 'build'
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: '10'
+      - run: npm ci
+      - run: npm test
+      - run: npm run compile -- --output dist/fpie2-macos
+      - uses: actions/upload-artifact@master
+        with:
+          name: fpie2-macos
+          path: dist/fpie2-macos
+  test-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: '10'
+      - run: npm ci
+      - run: npm test
+      - run: npm run compile -- --output dist/fpie2-ubuntu
+      - uses: actions/upload-artifact@master
+        with:
+          name: fpie2-ubuntu
+          path: dist/fpie2-ubuntu

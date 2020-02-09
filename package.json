@@ -4,8 +4,7 @@
   "description": "File Packer Include/Exclude 2",
   "main": "src/cli.js",
   "scripts": {
-    "compile": "nexe --input src/cli.js --output dist/fpie --name fpie2",
-    "start": "npm run compile && ./dist/fpie",
+    "compile": "nexe --input src/cli.js --name fpie2",
     "test": "mocha"
   },
   "author": "Jon Lauridsen <mail@jonlauridsen.com>",
@@ -14,8 +13,7 @@
     "globby": "^11.0.0",
     "mississippi": "^4.0.0",
     "nexe": "^3.3.2",
-    "tar": "^6.0.1",
-    "tmp-promise": "^2.0.2"
+    "tar": "^6.0.1"
   },
   "devDependencies": {
     "mocha": "^7.0.1"
