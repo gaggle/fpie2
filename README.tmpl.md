@@ -1,7 +1,7 @@
 # File Packer Include/Exclude 2
 
 \`\`\`
-$(./dist/fpie --help)
+$(./$FPIE --help)
 \`\`\`
 
 ## Why?
