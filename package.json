@@ -4,7 +4,7 @@
   "description": "File Packer Include/Exclude 2",
   "main": "src/cli.js",
   "scripts": {
-    "compile": "nexe --input src/cli.js --output dist/fpie --name fpie2",
+    "compile": "nexe --input src/cli.js --name fpie2",
     "start": "npm run compile && ./dist/fpie",
     "test": "mocha"
   },
