@@ -57,5 +57,5 @@ src/project$ cat .includefile
 project/
 lib/
 !**/node_modules/
-src/project$ fpie .. .includefile | docker build -f-
+src/project$ fpie .. .includefile | docker build -f project/Dockerfile -
 ```
