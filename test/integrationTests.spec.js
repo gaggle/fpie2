@@ -1,10 +1,11 @@
 /* global after before describe it */
 
 const { basename, join } = require('path')
-const { spawn } = require('child_process')
 const { strictEqual, ok } = require('assert')
 
 const { compile } = require('nexe')
+
+const { sh } = require('./spawner')
 
 function contains (content, needle) {
   return content.indexOf(needle) > 0
@@ -48,28 +49,3 @@ describe('compiled fpie2', () => {
     strictEqual(output, 'foo.txt\n')
   })
 })
-
-/**
- * @param {string} command
- * @param {{cwd:string}} opts
- * @returns {Promise<string>}
- */
-const sh = async (command, opts = {}) => spawnPromise('sh', ['-c', `${command}`], opts)
-
-/**
- * @param {string} command
- * @param {string[]} args
- * @param {{cwd:string}} opts
- * @returns {Promise<string>}
- */
-async function spawnPromise (command, args = [], opts = {}) {
-  return new Promise((resolve, reject) => {
-    let msg = ''
-    const p = spawn(command, args, opts)
-    p.stderr.on('data', data => msg += data.toString())
-    p.stdout.on('data', data => msg += data.toString())
-    p.on('close', code => {
-      code === 0 ? resolve(msg) : reject(new Error(msg))
-    })
-  })
-}
