@@ -5,6 +5,7 @@
   "main": "src/cli.js",
   "scripts": {
     "compile": "nexe --input src/cli.js --name fpie2",
+    "compile:build": "npm run compile -- --build",
     "test": "mocha"
   },
   "author": "Jon Lauridsen <mail@jonlauridsen.com>",
