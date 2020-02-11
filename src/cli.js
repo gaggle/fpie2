@@ -10,7 +10,7 @@ const { pipe } = require('./promiseStreams')
 async function main (args) {
   const files = await fileFinder(args.contextSrc, args.includeFile)
   if (args.printFiles) {
-    console.log(files.map(l => `./${l}`).join('\n'))
+    console.log(files.join('\n'))
   } else {
     await pipe(create({ gzip: true }, files), process.stdout)
   }
