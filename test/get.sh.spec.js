@@ -14,7 +14,7 @@ describe('get.sh', () => {
     await sh(`rm -rf ${tmp}`)
   })
 
-  it('should calculate downloading Linux release', async function () {
+  it('should calculate downloading Ubuntu release', async function () {
     const result = await sh(`cat get.sh | UNAME_OUT=Linux DRYRUN=true VERSION=v1.0.0 TO=${tmp} sh`)
     equal(result, `Downloading v1.0.0 of fpie2-ubuntu for Linux from https://github.com/gaggle/fpie2/releases/download/v1.0.0/fpie2-ubuntu to ${tmp}\n`)
   })
