@@ -8,7 +8,7 @@ const { spawn } = require('child_process')
  */
 module.exports.spawnPromise = spawnPromise = async function (command, args = [], opts = {}) {
   return new Promise((resolve, reject) => {
-    let msg = ''
+    let msg = `$ ${command} ${args.join(' ')}\n`
     const p = spawn(command, args, opts)
     p.stderr.on('data', data => msg += data.toString())
     p.stdout.on('data', data => msg += data.toString())
