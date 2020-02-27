@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: npm ci
-      - run: NEXE_TEMP=/opt/.nexe NEXE_BUILD=true npm test
+      - run: EXPECTED_FILENAME=fpie2-alpine EXPECTED_OS=Alpine NEXE_TEMP=/opt/.nexe NEXE_BUILD=true npm test
       - run: NEXE_TEMP=/opt/.nexe npm run compile:build -- --output dist/fpie2-alpine
       - uses: actions/upload-artifact@master
         with:
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: '10'
-      - run: npm ci
+      - run: EXPECTED_FILENAME=fpie2-macos EXPECTED_OS=Mac npm test
       - run: npm test
       - run: npm run compile -- --output dist/fpie2-macos
       - uses: actions/upload-artifact@master
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: '10'
-      - run: npm ci
+      - run: EXPECTED_FILENAME=fpie2-ubuntu EXPECTED_OS=Ubuntu npm test
       - run: npm test
       - run: npm run compile -- --output dist/fpie2-ubuntu
       - uses: actions/upload-artifact@master
