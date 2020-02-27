@@ -1,6 +1,4 @@
-const { ok, AssertionError } = require('assert')
-
-const { contains } = require('./utils')
+const { assertContains } = require('./utils')
 const { sh } = require('./spawner')
 
 describe('get.sh', () => {
@@ -37,20 +35,3 @@ describe('get.sh', () => {
     }
   })
 })
-
-function assertContains (actual, expected) {
-  try {
-    ok(contains(actual, expected))
-  } catch (err) {
-    if (err instanceof AssertionError) {
-      throw new AssertionError({
-        message: `Input A expected to contain input B:
-Expected :${expected}
-Actual   :${actual}`,
-        actual: actual,
-        expected: expected,
-      })
-    }
-    throw err
-  }
-}
