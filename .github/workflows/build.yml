@@ -7,6 +7,18 @@ on:
       - master
 
 jobs:
+  test-alpine:
+    runs-on: ubuntu-latest
+    container: jonlauridsen/node-nexe:10-alpine
+    steps:
+      - uses: actions/checkout@master
+      - run: npm ci
+      - run: NEXE_TEMP=/opt/.nexe NEXE_BUILD=true npm test
+      - run: NEXE_TEMP=/opt/.nexe npm run compile:build -- --output dist/fpie2-alpine
+      - uses: actions/upload-artifact@master
+        with:
+          name: fpie2-alpine
+          path: dist/fpie2-alpine
   test-macos:
     runs-on: macos-latest
     steps:

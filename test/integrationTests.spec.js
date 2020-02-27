@@ -21,12 +21,13 @@ describe('compiled fpie2', () => {
     fpie2 = join(tmp, 'fpie2')
     await compile({
       input: './src/index.js',
-      output: fpie2
+      output: fpie2,
+      build: !!process.env.NEXE_BUILD,
     })
   }
 
   before(async function () {
-    this.timeout(10000)
+    this.timeout(30000)
     await compileFpie2()
   })
 
