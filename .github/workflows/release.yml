@@ -21,6 +21,18 @@ jobs:
         with:
           name: fpie2-alpine
           path: dist/fpie2-alpine
+  test-amazonlinux:
+    runs-on: ubuntu-latest
+    container: amazonlinux
+    steps:
+      - run: yum install -y curl gzip make tar
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: '10'
+      - run: npm ci
+      - run: EXPECTED_FILENAME=fpie2-ubuntu EXPECTED_OS="Amazon Linux" npm test
+      - run: npm run compile -- --output dist/fpie2-ubuntu
   test-macos:
     runs-on: macos-latest
     steps:

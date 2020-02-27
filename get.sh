@@ -34,6 +34,10 @@ if [ ${MACHINE} = "Linux" ]; then
     MACHINE=Ubuntu
     FILENAME=fpie2-ubuntu
     ;;
+  *Amazon*Linux*)
+    MACHINE="Amazon Linux"
+    FILENAME=fpie2-ubuntu
+    ;;
   *)
     echo "Unknown Linux: ${RELEASE_PRETTY_NAME}"
     exit 1
