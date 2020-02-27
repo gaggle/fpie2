@@ -29,12 +29,10 @@ if [ ${MACHINE} = "Linux" ]; then
   *Alpine*)
     MACHINE=Alpine
     FILENAME=fpie2-alpine
-    echo lala
     ;;
   *Ubuntu*)
     MACHINE=Ubuntu
     FILENAME=fpie2-ubuntu
-    echo Unknowwwn
     ;;
   *)
     echo "Unknown Linux: ${RELEASE_PRETTY_NAME}"
