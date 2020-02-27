@@ -1,6 +1,6 @@
 {
   "name": "fpie2",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "File Packer Include/Exclude 2",
   "main": "src/cli.js",
   "scripts": {
