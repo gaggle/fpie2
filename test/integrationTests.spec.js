@@ -45,4 +45,10 @@ describe('compiled fpie2', () => {
     // ⬑ "tar -t" lists content of archive to stdout
     assertContains(output, 'foo.txt')
   })
+
+  it('can output to tar from a different cwd', async () => {
+    const output = await sh(`${fpie2} .. .includefile_many | tar -tz`, { cwd: 'test/fixtures/complex/includedir' })
+    // ⬑ "tar -t" lists content of archive to stdout
+    assertContains(output, 'includedir/.letsinclude')
+  })
 })

@@ -12,7 +12,7 @@ async function main (args) {
   if (args.printFiles) {
     console.log(files.map(l => `./${l}`).join('\n'))
   } else {
-    await pipe(create({ gzip: true }, files), process.stdout)
+    await pipe(create({ gzip: true, cwd: args.contextSrc }, files), process.stdout)
   }
 }
 
