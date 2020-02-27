@@ -59,3 +59,7 @@ lib/
 !**/node_modules/
 src/project$ fpie .. .includefile | docker build -f project/Dockerfile -
 ```
+
+## Cut a new release
+Run `npm version <major|minor|patch>` and push, then create a new release in GitHub. 
+CI will automatically populate the release with binaries.
