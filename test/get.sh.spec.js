@@ -20,6 +20,17 @@ describe('get.sh', () => {
       assertContains(result, `Would download fpie2-ubuntu for Ubuntu from https://github.com/gaggle/fpie2/releases/download/v1.0.0/fpie2-ubuntu to .`)
     })
   })
+
+  describe('actually running', () => {
+    const fn = process.env.EXPECTED_FILENAME
+    const os = process.env.EXPECTED_OS
+    if (fn && os) {
+      it(`should want to download ${fn} for ${os}`, async () => {
+        const result = await sh(`cat get.sh | DRYRUN=true VERSION=v1.0.0 TO=. sh`)
+        assertContains(result, `Would download ${fn} for ${os}`)
+      })
+    }
+  })
 })
 
 function assertContains (actual, expected) {
