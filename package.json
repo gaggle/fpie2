@@ -2,6 +2,7 @@
   "name": "fpie2",
   "version": "1.1.1",
   "description": "File Packer Include/Exclude 2",
+  "bin": "src/cli.js",
   "main": "src/cli.js",
   "scripts": {
     "compile": "nexe --input src/cli.js --name fpie2",
