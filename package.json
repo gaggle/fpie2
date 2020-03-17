@@ -14,11 +14,11 @@
   "dependencies": {
     "globby": "^11.0.0",
     "mississippi": "^4.0.0",
-    "nexe": "^3.3.2",
     "tar": "^6.0.1"
   },
   "devDependencies": {
     "mocha": "^7.0.1",
+    "nexe": "^3.3.2",
     "temp": "^0.9.1"
   }
 }
