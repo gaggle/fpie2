@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { create } = require('tar')
 
 const { fileFinder } = require('./fileFinder')
