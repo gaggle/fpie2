@@ -47,7 +47,7 @@ fi
 
 URL="${BASE}/${VERSION}/${FILENAME}"
 if [ -z "${DRYRUN}" ]; then
-  curl -L "${URL}" -o "${TO}/fpie2" && chmod +x "${TO}/fpie2"
+  curl -fL "${URL}" -o "${TO}/fpie2" && chmod +x "${TO}/fpie2"
 else
   echo "Would download ${FILENAME} for ${MACHINE} from ${URL} to ${TO}"
 fi
