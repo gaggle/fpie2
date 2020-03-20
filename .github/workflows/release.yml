@@ -33,6 +33,7 @@ jobs:
       - run: npm ci
       - run: EXPECTED_FILENAME=fpie2-ubuntu EXPECTED_OS="Amazon Linux" npm test
       - run: npm run compile -- --output dist/fpie2-ubuntu
+      # No uploading for amazonlinux, it's ubuntu compatible
   test-macos:
     runs-on: macos-latest
     steps:
