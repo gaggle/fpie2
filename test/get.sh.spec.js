@@ -13,6 +13,11 @@ describe('get.sh', () => {
       assertContains(result, `Would download fpie2-ubuntu for Amazon Linux from https://github.com/gaggle/fpie2/releases/download/v1.0.0/fpie2-ubuntu to .`)
     })
 
+    it('should calculate downloading Linux Mint release', async function () {
+      const result = await sh(`cat get.sh | UNAME_OUT=Linux RELEASE_PRETTY_NAME="Linux Mint 19.2" DRYRUN=true VERSION=v1.0.0 TO=. sh`)
+      assertContains(result, `Would download fpie2-ubuntu for Linux Mint from https://github.com/gaggle/fpie2/releases/download/v1.0.0/fpie2-ubuntu to .`)
+    })
+
     it('should calculate downloading Mac release', async function () {
       const result = await sh(`cat get.sh | UNAME_OUT=Darwin DRYRUN=true VERSION=v1.0.0 TO=. sh`)
       assertContains(result, `Would download fpie2-macos for Mac from https://github.com/gaggle/fpie2/releases/download/v1.0.0/fpie2-macos to .`)
