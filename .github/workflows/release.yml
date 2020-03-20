@@ -33,6 +33,19 @@ jobs:
       - run: npm ci
       - run: EXPECTED_FILENAME=fpie2-ubuntu EXPECTED_OS="Amazon Linux" npm test
       - run: npm run compile -- --output dist/fpie2-ubuntu
+      # No uploading for amazonlinux, it's ubuntu compatible
+  test-mint:
+    runs-on: ubuntu-latest
+    container: linuxmintd/mint19.2-amd64
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: '10'
+      - run: npm ci
+      - run: EXPECTED_FILENAME=fpie2-ubuntu EXPECTED_OS="Linux Mint" npm test
+      - run: npm run compile -- --output dist/fpie2-ubuntu
+      # No uploading for mint, it's ubuntu compatible
   test-macos:
     runs-on: macos-latest
     steps:
