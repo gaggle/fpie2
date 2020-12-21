@@ -36,3 +36,13 @@ lib/
 !**/node_modules/
 src/project$ fpie .. .includefile | docker build -f project/Dockerfile -
 \`\`\`
+
+## Contributing
+This project relies on \`nexe\`
+and as such is sensitive to what version of node.js you're running.
+
+I run:
+\`\`\`
+$ node --version
+v.12.16.2
+\`\`\`

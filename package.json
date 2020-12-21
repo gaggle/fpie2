@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "mocha": "^7.0.1",
-    "nexe": "^3.3.2",
+    "nexe": "^3.3.7",
     "temp": "^0.9.1"
   }
 }

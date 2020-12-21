@@ -60,6 +60,12 @@ lib/
 src/project$ fpie .. .includefile | docker build -f project/Dockerfile -
 ```
 
-## Cut a new release
-Run `npm version <major|minor|patch>` and push, then create a new release in GitHub. 
-CI will automatically populate the release with binaries.
+## Contributing
+This project relies on 
+and as such is sensitive to what version of node.js you're running.
+
+I run:
+```
+$ node --version
+v.12.16.2
+```
