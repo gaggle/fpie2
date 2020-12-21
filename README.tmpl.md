@@ -48,5 +48,7 @@ v.12.16.2
 \`\`\`
 
 ## Cut a new release
-Run \`npm version <major|minor|patch>\` and push, then create a new release in GitHub.
+Run \`npm version <major|minor|patch>\` 
+and \`git push --tags\`, 
+then create a new release in GitHub.
 CI will automatically populate the release with binaries.
