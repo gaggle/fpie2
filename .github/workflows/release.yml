@@ -11,12 +11,9 @@ on:
 jobs:
   test-alpine:
     runs-on: ubuntu-latest
-    container: alpine
+    container: node:12.9.1-alpine
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: '12.9.1'
       - run: npm ci
       - run: EXPECTED_FILENAME=fpie2-alpine EXPECTED_OS=Alpine npm test
       - run: npm run compile -- --output dist/fpie2-alpine
