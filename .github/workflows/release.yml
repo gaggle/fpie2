@@ -11,7 +11,7 @@ on:
 jobs:
   test-alpine:
     runs-on: ubuntu-latest
-    container: jonlauridsen/node-nexe:10-alpine
+    container: node:12.16.2-alpine
     steps:
       - uses: actions/checkout@master
       - run: npm ci
