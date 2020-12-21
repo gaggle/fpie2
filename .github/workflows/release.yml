@@ -11,14 +11,15 @@ on:
 jobs:
   test-alpine:
     runs-on: ubuntu-latest
-    container: node:12.9.0-alpine
+    container: alpine
     steps:
       - uses: actions/checkout@master
-#      - run: apk add bash binutils-gold curl g++ gcc gnupg libgcc libstdc++ linux-headers make python upx
-#      - run: npm install -g nexe && cd /opt && echo "console.log('hello world')" >> hello-world.js && nexe --verbose --build --temp /opt/.nexe --input hello-world.js --output hello-world && rm hello-world.*
+      - uses: actions/setup-node@master
+        with:
+          node-version: '12.9.1'
       - run: npm ci
       - run: EXPECTED_FILENAME=fpie2-alpine EXPECTED_OS=Alpine npm test
-      - run: NEXE_TEMP=/opt/.nexe npm run compile:build -- --output dist/fpie2-alpine
+      - run: npm run compile -- --output dist/fpie2-alpine
       - uses: actions/upload-artifact@master
         with:
           name: fpie2-alpine
