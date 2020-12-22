@@ -10,8 +10,8 @@ clean:
 
 .PHONY: docker-build
 docker-build:
-	docker pull jonlauridsen/node-nexe:10-alpine
-	docker build -f docker-images/node-nexe-10-alpine.Dockerfile -t jonlauridsen/node-nexe:10-alpine .
+	docker pull jonlauridsen/node-nexe:10-alpine || true
+	docker build -f docker-images/node-nexe-10-alpine.Dockerfile --cache-from jonlauridsen/node-nexe:10-alpine -t jonlauridsen/node-nexe:10-alpine .
 
 .PHONY: docker-publish
 docker-publish:
