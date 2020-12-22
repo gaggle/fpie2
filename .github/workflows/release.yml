@@ -22,81 +22,98 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: make docker-publish
 
-  test-alpine:
-    runs-on: ubuntu-latest
-    container: jonlauridsen/node-nexe:10-alpine
+  nexe-built-platforms:
+    # Test fpie2 against platforms where we have to build nexe to get it working
+    # (e.g. nexe doesn't play well w. Alpine out-of-the-box,
+    # so we create an image where we've already spent the 1.5 hours to build nexe)
     needs:
       - build-nexe-images
+    strategy:
+      fail-fast: false
+      matrix:
+        name: ['alpine']
+        container:
+          - 'jonlauridsen/node-nexe:10-alpine'
+        include:
+          - name: 'alpine'
+            os_name: 'Alpine'
+            os: 'ubuntu-latest'
+            filename: 'fpie2-alpine'
+            do_upload: true
+    name: test-${{ matrix.name }}-${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
     steps:
+      - if: ${{ matrix.prepare_cmd != '' }}
+        run: ${{ matrix.prepare_cmd }}
       - uses: actions/checkout@master
       - run: npm ci
-      - run: EXPECTED_FILENAME=fpie2-alpine EXPECTED_OS=Alpine NEXE_TEMP=/opt/.nexe NEXE_BUILD=true npm test
-      - run: NEXE_TEMP=/opt/.nexe npm run compile:build -- --output dist/fpie2-alpine
-      - uses: actions/upload-artifact@master
+
+      - run: EXPECTED_FILENAME="${{ matrix.filename }}" EXPECTED_OS="${{ matrix.os_name }}" NEXE_TEMP=/opt/.nexe NEXE_BUILD=true npm test
+      - run: NEXE_TEMP=/opt/.nexe npm run compile:build -- --output "dist/${{ matrix.filename }}"
+      - if: ${{ matrix.do_upload == true }}
+        uses: actions/upload-artifact@master
         with:
-          name: fpie2-alpine
-          path: dist/fpie2-alpine
-  test-amazonlinux:
-    runs-on: ubuntu-latest
-    container: amazonlinux
+          name: "${{ matrix.filename }}"
+          path: "dist/${{ matrix.filename }}"
+
+  platforms:
+    # Test fpie2 against platforms and upload their binary artifacts
+    # (but note e.g. amazonlinux's binaries are the same as ubuntu's, in that case we only upload ubuntu's artifacts)
+    strategy:
+      fail-fast: false
+      matrix:
+        name: ['amazonlinux', 'mint', 'mac', 'ubuntu']
+        node:
+          - '10.19.0'
+          - '12.16.2'
+        include:
+          - name: 'amazonlinux'
+            os_name: 'Amazon Linux'
+            os: 'ubuntu-latest'
+            container: 'amazonlinux'
+            prepare_cmd: 'yum install -y curl gzip make tar'
+            filename: 'fpie2-ubuntu'
+          - name: 'mint'
+            os_name: 'Linux Mint'
+            os: 'ubuntu-latest'
+            container: 'linuxmintd/mint19.2-amd64'
+            filename: 'fpie2-ubuntu'
+          - name: 'mac'
+            os_name: 'Mac'
+            os: 'macos-latest'
+            filename: 'fpie2-macos'
+            do_upload: true
+          - name: 'ubuntu'
+            os_name: 'Ubuntu'
+            os: 'ubuntu-latest'
+            filename: 'fpie2-ubuntu'
+            do_upload: true
+    name: test-${{ matrix.name }}-${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
     steps:
-      - run: yum install -y curl gzip make tar
+      - if: ${{ matrix.prepare_cmd != '' }}
+        run: ${{ matrix.prepare_cmd }}
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: '12.16.2'
+          node-version: ${{ matrix.node }}
       - run: npm ci
-      - run: EXPECTED_FILENAME=fpie2-ubuntu EXPECTED_OS="Amazon Linux" npm test
-      - run: npm run compile -- --output dist/fpie2-ubuntu
-      # No uploading for amazonlinux, it's ubuntu compatible
-  test-mint:
-    runs-on: ubuntu-latest
-    container: linuxmintd/mint19.2-amd64
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - run: EXPECTED_FILENAME="${{ matrix.filename }}" EXPECTED_OS="${{ matrix.os_name }}" npm test
+      - run: npm run compile -- --output "dist/${{ matrix.filename }}"
+      - if: ${{ matrix.do_upload == true && matrix.node == '12.16.2' }}
+        uses: actions/upload-artifact@master
         with:
-          node-version: '12.16.2'
-      - run: npm ci
-      - run: EXPECTED_FILENAME=fpie2-ubuntu EXPECTED_OS="Linux Mint" npm test
-      - run: npm run compile -- --output dist/fpie2-ubuntu
-      # No uploading for mint, it's ubuntu compatible
-  test-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: '12.16.2'
-      - run: npm ci
-      - run: EXPECTED_FILENAME=fpie2-macos EXPECTED_OS=Mac npm test
-      - run: npm run compile -- --output dist/fpie2-macos
-      - uses: actions/upload-artifact@master
-        with:
-          name: fpie2-macos
-          path: dist/fpie2-macos
-  test-ubuntu:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: '12.16.2'
-      - run: npm ci
-      - run: EXPECTED_FILENAME=fpie2-ubuntu EXPECTED_OS=Ubuntu npm test
-      - run: npm run compile -- --output dist/fpie2-ubuntu
-      - uses: actions/upload-artifact@master
-        with:
-          name: fpie2-ubuntu
-          path: dist/fpie2-ubuntu
+          name: "${{ matrix.filename }}"
+          path: "dist/${{ matrix.filename }}"
 
   upload:
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
     needs:
-      - test-alpine
-      - test-macos
-      - test-ubuntu
+      - nexe-built-platforms
+      - platforms
     steps:
       - uses: actions/download-artifact@master
         with:
