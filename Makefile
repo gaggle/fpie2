@@ -2,11 +2,20 @@ VERSION=`node -p -e "require('./package.json').version"`
 
 .PHONY: default
 default:
-	@echo clean fix test
+	@echo clean docker-build docker-publish fix test
 
 .PHONY: clean
 clean:
 	rm -rf dist/
+
+.PHONY: docker-build
+docker-build:
+	docker pull jonlauridsen/node-nexe:10-alpine
+	docker build -f docker-images/node-nexe-10-alpine.Dockerfile -t jonlauridsen/node-nexe:10-alpine .
+
+.PHONY: docker-publish
+docker-publish:
+	docker push jonlauridsen/node-nexe:10-alpine
 
 .PHONY: fix
 fix: _readme-fix
